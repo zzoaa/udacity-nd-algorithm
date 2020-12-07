@@ -1,0 +1,7 @@
+Calculate Big O
+
+* Task0 - O(1)
+* Task1 - O(N)
+* Task2 - O(N)
+* Task3 - O(NlogN)
+* Task4 - O(NlogN)
