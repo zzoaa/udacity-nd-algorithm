@@ -25,12 +25,28 @@ Print a message:
 The list of numbers should be print out one per line in lexicographic order with no duplicates.
 """
 
-tell_numbers = []
+
+completed_target_numbers = set()
+
+for text in texts:
+    completed_target_numbers.add(text[0])
+    completed_target_numbers.add(text[1])
+
+target_numbers = []
+
 for call in calls:
 
-    if '140' in call[0][0:3]:
-        tell_numbers.append(call[1])
+    if call[0][0:3] == '140':
+        target_numbers.append(call[1])
+    else:
+        completed_target_numbers.add(call[0])
+
+possible_telemarketers = set()
+
+for target_number in target_numbers:
+    if target_number not in completed_target_numbers:
+        possible_telemarketers.add(target_number)
 
 print("These numbers could be telemarketers: ")
-for tn in sorted(list(set(tell_numbers))):
-    print(tn)
+for call in sorted(list(possible_telemarketers)):
+    print(call)

@@ -19,16 +19,16 @@ Print a message:
 "There are <count> different telephone numbers in the records."
 """
 
-telephone_numbers = {}
+telephone_numbers = set()
 
 for text in texts:
-    telephone_numbers[text[0]] = 0
-    telephone_numbers[text[1]] = 0
+    telephone_numbers.add(text[0])
+    telephone_numbers.add(text[1])
 
 for call in calls:
-    telephone_numbers[call[0]] = 0
-    telephone_numbers[call[1]] = 0
+    telephone_numbers.add(call[0])
+    telephone_numbers.add(call[1])
 
-num_of_t = len(telephone_numbers.keys())
+num_of_t = len(telephone_numbers)
 print("There are {} different telephone numbers in the records.".format(
     num_of_t))

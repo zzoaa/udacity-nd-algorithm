@@ -1,0 +1,41 @@
+Calculate Big O
+
+* Task0 - O(1)
+
+There are texts and calls. The data type of them is an array.
+So, I can find a row by using index and I can find the elements by using index too.
+
+Even if there are lots of elements in the array, finding an element with index in array is constant time.
+
+* Task1 - O(N)
+
+There are three operations.
+First one is traversing all of texts.
+Second one is also traversing all of calls.
+Third one is getting length.
+So, the time complexity of Task1 depends on the length of texts or calls.
+
+* Task2 - O(N)
+
+There are two operations.
+First one is traversing all of calls.
+Second one is traversing all of telephone numbers.
+So, the time complexity of Task2 depends on the length of calls.
+
+* Task3 - O(NlogN)
+
+There are two operations.
+First one is traversing all of calls.
+Second one is sorting all of the area codes.
+So, the time complexity of Task3 depends on the length of calls and sorting method.
+The sorting method have a worst-case time-complexity of O(n log n)
+
+* Task4 - O(NlogN)
+
+There are four operations.
+First one is traversing all of texts.
+Second one is also traversing all of calls.
+Third one is traversing all of the candidate numbers and checking whether the number is possible telemarketers.
+Fourth one is sorting all of the possible telemarketers.
+So, the time complexity of Task4 depends on the length of the possible telemarketers and sorting method.
+The sorting method have a worst-case time-complexity of O(n log n)

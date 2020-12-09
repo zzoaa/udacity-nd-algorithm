@@ -48,30 +48,37 @@ import re
 
 
 def extract_area_code(tn):
-    if '140' in tn[0:3]:
-        return '140'
 
     if '(' in tn:
         return tn[1:tn.index(')')]
 
-    if re.search(r'^[789].+', tn):
+    elif '140' in tn[0:3]:
+        return '140'
+
+    elif re.search(r'^[789].+', tn):
         return tn[:4]
+
+    else:
+        return None
 
 
 area_codes = []
 all_fixed_lines = 0
 to_fixed_lines = 0
+
 for call in calls:
-    from_ac = extract_area_code(call[0])
-    to_ac = extract_area_code(call[1])
 
-    area_codes.append(from_ac)
-    area_codes.append(to_ac)
+    calling_number = extract_area_code(call[0])
 
-    if from_ac == '080':
+    if calling_number == '080':
+        receiving_number = extract_area_code(call[1])
+
+        if receiving_number:
+            area_codes.append(receiving_number)
+
         all_fixed_lines = all_fixed_lines + 1
 
-        if from_ac == to_ac:
+        if calling_number == receiving_number:
             to_fixed_lines = to_fixed_lines + 1
 
 print("The numbers called by people in Bangalore have codes:")
@@ -79,5 +86,5 @@ for item in sorted(list(set(area_codes))):
     print(item)
 
 print("{:.2f} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.".format(
-    to_fixed_lines / all_fixed_lines
+    (to_fixed_lines / all_fixed_lines) * 100
 ))
