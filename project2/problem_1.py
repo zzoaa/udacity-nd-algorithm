@@ -9,6 +9,9 @@ class Node(object):
     def __str__(self):
         return "({},{})".format(self.key, self.value)
 
+    def __repr__(self):
+        return "({} <- ({},{}) ->{})".format(self.prev, self.key, self.value, self.next)
+
 
 class DoubleLinkedList(object):
 
@@ -34,6 +37,15 @@ class DoubleLinkedList(object):
             self.tail.next = node
             self.tail = node
 
+    def __repr__(self):
+        current = self.head
+        result = []
+        while current:
+            result.append(current)
+            current = current.next
+
+        return "-".join([str(item) for item in result])
+
 
 class LRU_Cache(object):
 
@@ -43,6 +55,7 @@ class LRU_Cache(object):
         self.size = 0
         self.keys = DoubleLinkedList()
         self.map = {}
+        self.debug = False
 
     def get(self, key):
 
@@ -70,16 +83,32 @@ class LRU_Cache(object):
         return result
 
     def set(self, key, value):
-        node = Node(key, value)
 
-        if self.size == self.capacity:
-            node_of_lru = self.keys.pop()
-            del self.map[node_of_lru.key]
-            self.size = self.size - 1
+        if key in self.map:
+            temp = self.map[key]
+            temp.value = value
+            self.map[key] = temp
+        else:
+            node = Node(key, value)
+            if self.size == self.capacity:
+                node_of_lru = self.keys.pop()
 
-        self.keys.append(node)
-        self.map[key] = node
-        self.size = self.size + 1
+                if node_of_lru.next:
+                    node_of_lru.next.prev = None
+
+                if node_of_lru.prev:
+                    node_of_lru.prev.next = None
+
+                del self.map[node_of_lru.key]
+                self.size = self.size - 1
+
+            self.keys.append(node)
+            self.map[key] = node
+            self.size = self.size + 1
+
+        if self.debug:
+            print(str(self.map))
+            print(self.keys)
 
     def __str__(self):
         return str(self.map)
@@ -102,6 +131,7 @@ def iterate(head):
 def main():
 
     our_cache = LRU_Cache(5)
+    # our_cache.debug = True
 
     our_cache.set(1, 1)
     our_cache.set(2, 2)
@@ -116,6 +146,41 @@ def main():
     our_cache.set(6, 6)
 
     test(our_cache.get(3), -1)
+
+    our_cache.set(4, 10)
+    our_cache.set(5, 15)
+
+    test(our_cache.get(4), 10)
+    test(our_cache.get(5), 15)
+
+    # test case of reviewer
+    our_cache = LRU_Cache(3)
+    # our_cache.debug = True
+
+    our_cache.set(1, 1)
+    our_cache.set(2, 2)
+    our_cache.set(3, 3)
+    our_cache.set(4, 4)
+    test(our_cache.get(4), 4)  # Expected Value = 4
+    test(our_cache.get(1), -1)  # Expected Value = -1
+
+    our_cache.set(2, 4)
+
+    test(our_cache.get(2), 4)  # Expected Value = 4
+    our_cache.set(5, 5)
+
+    test(our_cache.get(3), -1)  # Expected Value = -1
+    test(our_cache.get(5), 5)  # Expected Value = 5
+    our_cache.set(2, 6)
+
+    test(our_cache.get(2), 6)  # Expected Value = 6
+    our_cache.set(6, 6)
+
+    test(our_cache.get(4), -1)  # Expected Value = -1
+    test(our_cache.get(6), 6)  # Expected Value = 6
+
+    our_cache.set(5, 10)
+    our_cache.set(7, 7)
 
 
 main()
