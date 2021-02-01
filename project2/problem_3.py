@@ -50,6 +50,7 @@ def huffman_decoding(data, tree):
 
 
 def test(a_great_sentence):
+    print("#"*100)
     print("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
     print("The content of the data is: {}\n".format(a_great_sentence))
 
@@ -205,3 +206,5 @@ if __name__ == "__main__":
     testing(huffman_tree.decode('1010101010101000100100111111111111111000000010101010101'), chars)
 
     test(a_great_sentence="The bird is the word")
+    test(a_great_sentence="The bird is the wordThe bird is the wordThe bird is the wordThe bird is the wordThe bird is the wordThe bird is the wordThe bird is the word")
+    test(a_great_sentence="AB`")
